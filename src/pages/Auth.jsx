@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 export default function Auth(){
     const [mode,setMode] = useState('signup')
     const [error,setError] = useState(null)
-    const {signUp,user,login,logout} = useContext(AuthContext)
+    const {signUp,login} = useContext(AuthContext)
     const navigate = useNavigate();
     const {register,handleSubmit,formState:{errors}} = useForm()
 
@@ -18,11 +18,9 @@ export default function Auth(){
         }else{
             result = login(data.email,data.password)
         }
-        console.log(result)
         if(result.success) {
             navigate('/')
         }else{
-            console.log(result.message)
             setError(result.message)
         }
     }
@@ -30,8 +28,6 @@ export default function Auth(){
     return <div className="page">
                 <div className="container">
                     <div className="auth-container">
-                        {user && <p> user logged in: {user.email}</p>}
-                        <button onClick={()=>logout()}>logout</button>
                         <h1 className='page-title'>{ mode==='signup' ? 'Sign Up' : 'Login' }</h1>
                         {error && <div className="form-error">{error}</div>}
                         <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
